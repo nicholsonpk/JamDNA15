@@ -5,53 +5,105 @@ var finishedJump = false
 
 var isSliding = false
 var isRolling = false
+var slideRollTimer = 0
+
+var isRunning = true
 
 var whereIsPlayer
 
-var JUMP_SPEED = 300
-var JUMP_HEIGHT = 100
+var JUMP_SPEED = 600
+var JUMP_HEIGHT = 300
 
-var image1 = preload("res://images/player_anim/Sprite-0001.png")
-var image2 = preload("res://images/player_anim/Sprite-0002.png")
-var image3 = preload("res://images/player_anim/Sprite-0003.png")
-var image4 = preload("res://images/player_anim/Sprite-0004.png")
+var runningImage1 = preload("res://images/player_anim/Sprite-0001.png")
+var runningImage2 = preload("res://images/player_anim/Sprite-0002.png")
+var runningImage3 = preload("res://images/player_anim/Sprite-0003.png")
+var runningImage4 = preload("res://images/player_anim/Sprite-0004.png")
+
+var slidingImage1 = preload("res://images/player_anim/Sprite-slide.png")
+
+var rollingImage1 = preload("res://images/player_anim/Sprite-roll.png")
+
 var currentFrame = 1
 var timeSinceFrame = 0
 
 enum runningOn { bottom, right, top, left }
 
-# Called when the node enters the scene tree for the first time.
+# Set first running texture and player starts on the bottom.
 func _ready():
-	get_node(".").set_texture(image1)
+	get_node(".").set_texture(runningImage1)
 	whereIsPlayer = runningOn.bottom
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	
+	# Animations
+	#
+	#  .1 sets the framerate. Should match future animation speed
+	# 
+	#
+	
 	timeSinceFrame += delta
 	if (timeSinceFrame >= .1):
 		currentFrame += 1
 		
-		if (currentFrame == 1):
-			get_node(".").set_texture(image1)
-		if (currentFrame == 2):
-			get_node(".").set_texture(image2)
-		if (currentFrame == 3):
-			get_node(".").set_texture(image3)
-		if (currentFrame == 4):
-			get_node(".").set_texture(image4)
-			currentFrame = 1
+		# Running
+		if (isRunning):
+			if (currentFrame == 1):
+				get_node(".").set_texture(runningImage1)
+			if (currentFrame == 2):
+				get_node(".").set_texture(runningImage2)
+			if (currentFrame == 3):
+				get_node(".").set_texture(runningImage3)
+			if (currentFrame == 4):
+				get_node(".").set_texture(runningImage4)
+				currentFrame = 1
+		
+		# Jumping
+#		if (isJumping):
+#			get_node(".").set_texture(jumpingImage1)
+		
+		# Sliding
+		if (isSliding && !isRolling):
+			get_node(".").set_texture(slidingImage1)
+		
+		# Rolling
+		if (isRolling):
+			get_node(".").set_texture(rollingImage1)
+		
 		
 		timeSinceFrame = 0
 	
+	
+	#
+	#
+	# Check inputs
+	#
+	#
+	
+	# Neither input pressed
+	if (!Input.is_action_pressed("ui_up") && !Input.is_action_pressed("ui_down") && !isJumping):
+		isRunning = true
+	
+	# Up input pressed
 	if (isJumping == false  && isSliding == false && isRolling ==  false && Input.is_action_pressed("ui_up")):
 		# jumping
 		isJumping = true
 	
-	if (isJumping == false  && isSliding == false && isRolling ==  false && Input.is_action_pressed("ui_down")):
+	# Down input pressed
+	if (isJumping == false && isSliding == false && isRolling ==  false && Input.is_action_pressed("ui_down")):
 		# sliding
 		isSliding = true
+	
+	#
+	# isRolling is set inside isSliding code
+	#
 
+	#
+	#
+	# Jumping
+	#
+	#
+	
 	if (isJumping):
 		
 		# bottom
@@ -119,6 +171,43 @@ func _process(delta):
 				else:
 					isJumping = false
 					finishedJump = false
-
+	
+	#
+	#
+	# Sliding and Rolling
+	#
+	#
+	if (isSliding):
+		
+		# if the button is held down,
+		# count length of time
+		if (Input.is_action_pressed("ui_down")):
+			isSliding = true
+			slideRollTimer += delta
+		else: # otherwise, reset timer and bools
+			slideRollTimer = 0
+			isSliding = false
+			isRolling = false
+		
+		if (slideRollTimer > .5):
+			# Rolling
+			isRolling = true
+	
+#	# print to output for testing
+#	var run
+#	var jump
+#	var slide
+#	var roll
+#	run = "true" if isRunning else "false"
+#	jump = "true" if isJumping else "false"
+#	slide = "true" if isSliding else "false"
+#	roll = "true" if isRolling else "false"
+#	print(run + jump + slide + roll)
+	
+#
+#
+# Called by Game to keep player class in line with where the player is
+#
+#
 func setWhereIsPlayer(var x):
 	whereIsPlayer = x

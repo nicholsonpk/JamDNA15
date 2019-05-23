@@ -40,7 +40,7 @@ func _process(delta):
 		if (get_node("Player").global_position.x >= PLAY_MAXX):
 			whereIsPlayer = runningOn.right
 			get_node("Player").setWhereIsPlayer(runningOn.right)
-			get_node("Player").rotate(-1.570796)
+			get_node("Player").rotate(-1.570796) # 90 degrees to Rads
 	
 	if (whereIsPlayer == runningOn.right):
 		
@@ -56,7 +56,7 @@ func _process(delta):
 		if (get_node("Player").global_position.y <= PLAY_MINY):
 			whereIsPlayer = runningOn.top
 			get_node("Player").setWhereIsPlayer(runningOn.top)
-			get_node("Player").rotate(-1.570796)
+			get_node("Player").rotate(-1.570796) # 90 degrees to Rads
 		
 		
 	if (whereIsPlayer == runningOn.top):
@@ -73,7 +73,7 @@ func _process(delta):
 		if (get_node("Player").global_position.x <= PLAY_MINX):
 			whereIsPlayer = runningOn.left
 			get_node("Player").setWhereIsPlayer(runningOn.left)
-			get_node("Player").rotate(-1.570796)
+			get_node("Player").rotate(-1.570796) # 90 degrees to Rads
 		
 		
 		
@@ -91,7 +91,7 @@ func _process(delta):
 		if (get_node("Player").global_position.y >= PLAY_MAXY):
 			whereIsPlayer = runningOn.bottom
 			get_node("Player").setWhereIsPlayer(runningOn.bottom)
-			get_node("Player").rotate(-1.570796)
+			get_node("Player").rotate(-1.570796) # 90 degrees to Rads
 
 
 func getDirection():
