@@ -2,7 +2,12 @@ extends Node2D
 
 var isJumping = false
 var finishedJump = false
+
+var isSliding = false
+var isRolling = false
+
 var whereIsPlayer
+
 var JUMP_SPEED = 300
 var JUMP_HEIGHT = 100
 
@@ -39,9 +44,13 @@ func _process(delta):
 		
 		timeSinceFrame = 0
 	
-	if (isJumping == false && Input.is_action_pressed("ui_up")):
+	if (isJumping == false  && isSliding == false && isRolling ==  false && Input.is_action_pressed("ui_up")):
 		# jumping
 		isJumping = true
+	
+	if (isJumping == false  && isSliding == false && isRolling ==  false && Input.is_action_pressed("ui_down")):
+		# sliding
+		isSliding = true
 
 	if (isJumping):
 		
