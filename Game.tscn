@@ -1,8 +1,14 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Game.gd" type="Script" id=1]
 [ext_resource path="res://images/background_square.png" type="Texture" id=2]
-[ext_resource path="res://Player.gd" type="Script" id=3]
+[ext_resource path="res://images/01_g.PNG" type="Texture" id=3]
+[ext_resource path="res://images/01_g_01.PNG" type="Texture" id=4]
+[ext_resource path="res://images/01_g_02.PNG" type="Texture" id=5]
+[ext_resource path="res://images/gobilen_t_03.png" type="Texture" id=6]
+[ext_resource path="res://images/gobilen_t_04.png" type="Texture" id=7]
+[ext_resource path="res://images/02_g.PNG" type="Texture" id=8]
+[ext_resource path="res://Player.gd" type="Script" id=9]
 
 [sub_resource type="Gradient" id=1]
 
@@ -16,63 +22,36 @@ script = ExtResource( 1 )
 position = Vector2( 2808.74, -2003.48 )
 texture = ExtResource( 2 )
 
-[node name="AllPolys" type="Node2D" parent="."]
-editor/display_folded = true
+[node name="01_g" type="Sprite" parent="background_square"]
+position = Vector2( -2255.94, 1746.65 )
+texture = ExtResource( 3 )
 
-[node name="Polygon2D2" type="Polygon2D" parent="AllPolys"]
-position = Vector2( 599.009, -0.289932 )
-color = Color( 0.203925, 0.189056, 0.460938, 1 )
-polygon = PoolVector2Array( 2.24963, 4.82483, 197.462, 83.5949, 224.861, 878.145, 29.6479, 703.481 )
+[node name="01_g_01" type="Sprite" parent="background_square"]
+position = Vector2( -2057.19, 2095.01 )
+texture = ExtResource( 4 )
 
-[node name="Polygon2D10" type="Polygon2D" parent="AllPolys"]
-position = Vector2( 665.884, -4824.79 )
-color = Color( 0.203925, 0.189056, 0.460938, 1 )
-polygon = PoolVector2Array( 2.24963, 4.82483, 197.462, 83.5949, 224.861, 878.145, 29.6479, 703.481 )
+[node name="01_g_02" type="Sprite" parent="background_square"]
+position = Vector2( -1663.03, 2095.01 )
+texture = ExtResource( 5 )
 
-[node name="Polygon2D3" type="Polygon2D" parent="AllPolys"]
-position = Vector2( 1598.4, -11.0758 )
-color = Color( 0.160784, 0.145098, 0.411765, 1 )
-polygon = PoolVector2Array( 2.24963, 4.82483, 197.462, 83.5949, 224.861, 878.145, 29.6479, 703.481, 17.6577, 439.162 )
+[node name="gobilen_t_03" type="Sprite" parent="background_square"]
+position = Vector2( -1215.04, 2255.24 )
+scale = Vector2( 2, 2 )
+texture = ExtResource( 6 )
 
-[node name="Polygon2D9" type="Polygon2D" parent="AllPolys"]
-position = Vector2( 1665.27, -4835.58 )
-color = Color( 0.160784, 0.145098, 0.411765, 1 )
-polygon = PoolVector2Array( 2.24963, 4.82483, 197.462, 83.5949, 224.861, 878.145, 29.6479, 703.481, 17.6577, 439.162 )
+[node name="gobilen_t_04" type="Sprite" parent="background_square"]
+position = Vector2( -203.5, 2261.26 )
+scale = Vector2( 2, 2 )
+texture = ExtResource( 7 )
 
-[node name="Polygon2D4" type="Polygon2D" parent="AllPolys"]
-position = Vector2( 2562.64, -11.3933 )
-color = Color( 0.113725, 0.101961, 0.329412, 1 )
-polygon = PoolVector2Array( 2.24963, 4.82483, 197.462, 83.5949, 224.861, 878.145, 29.6479, 703.481 )
-
-[node name="Polygon2D7" type="Polygon2D" parent="AllPolys"]
-position = Vector2( 2629.51, -4835.9 )
-color = Color( 0.113725, 0.101961, 0.329412, 1 )
-polygon = PoolVector2Array( 2.24963, 4.82483, 197.462, 83.5949, 224.861, 878.145, 29.6479, 703.481 )
-
-[node name="Polygon2D5" type="Polygon2D" parent="AllPolys"]
-position = Vector2( 3726.4, -12.1632 )
-color = Color( 0.0588235, 0.0509804, 0.207843, 1 )
-polygon = PoolVector2Array( 2.24963, 4.82483, 197.462, 83.5949, 224.861, 878.145, 29.6479, 703.481 )
-
-[node name="Polygon2D8" type="Polygon2D" parent="AllPolys"]
-position = Vector2( 3793.27, -4836.67 )
-color = Color( 0.0588235, 0.0509804, 0.207843, 1 )
-polygon = PoolVector2Array( 2.24963, 4.82483, 197.462, 83.5949, 224.861, 878.145, 29.6479, 703.481 )
-
-[node name="Polygon2D6" type="Polygon2D" parent="AllPolys"]
-position = Vector2( 4685.78, -38.391 )
-color = Color( 0.0196078, 0.0156863, 0.117647, 1 )
-polygon = PoolVector2Array( 2.24963, 4.82483, 197.462, 83.5949, 205.737, 430.351, 224.861, 878.145, 29.6479, 703.481 )
-
-[node name="Polygon2D11" type="Polygon2D" parent="AllPolys"]
-position = Vector2( 4752.65, -4862.9 )
-color = Color( 0.0196078, 0.0156863, 0.117647, 1 )
-polygon = PoolVector2Array( 2.24963, 4.82483, 197.462, 83.5949, 205.737, 430.351, 224.861, 878.145, 29.6479, 703.481 )
+[node name="02_g" type="Sprite" parent="background_square"]
+position = Vector2( -2057.99, 2092.67 )
+texture = ExtResource( 8 )
 
 [node name="Player" type="Sprite" parent="."]
 position = Vector2( 195.898, 735.168 )
 texture = SubResource( 2 )
-script = ExtResource( 3 )
+script = ExtResource( 9 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2( 3, 3 )
