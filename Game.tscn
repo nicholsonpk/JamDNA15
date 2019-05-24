@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Game.gd" type="Script" id=1]
 [ext_resource path="res://images/background_square.png" type="Texture" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://images/gobilen_t_04.png" type="Texture" id=7]
 [ext_resource path="res://images/02_g.PNG" type="Texture" id=8]
 [ext_resource path="res://Player.gd" type="Script" id=9]
+[ext_resource path="res://audio/Itty Bitty 8 Bit.ogg" type="AudioStream" id=10]
 
 [sub_resource type="Gradient" id=1]
 
@@ -63,3 +64,8 @@ drag_margin_left = 0.0
 drag_margin_top = 0.0
 drag_margin_right = 0.0
 drag_margin_bottom = 0.0
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 10 )
+autoplay = true
+max_distance = 1e+006

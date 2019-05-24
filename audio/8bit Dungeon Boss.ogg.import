@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/8bit Dungeon Boss.ogg-92b9bad5bb37daaee82f4683f10415c0.oggstr"
+
+[deps]
+
+source_file="res://audio/8bit Dungeon Boss.ogg"
+dest_files=[ "res://.import/8bit Dungeon Boss.ogg-92b9bad5bb37daaee82f4683f10415c0.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

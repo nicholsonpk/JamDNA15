@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/Itty Bitty 8 Bit.ogg-87acb399a5996bd6e9bd1e7953fc0beb.oggstr"
+
+[deps]
+
+source_file="res://audio/Itty Bitty 8 Bit.ogg"
+dest_files=[ "res://.import/Itty Bitty 8 Bit.ogg-87acb399a5996bd6e9bd1e7953fc0beb.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0
