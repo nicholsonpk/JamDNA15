@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Game.gd" type="Script" id=1]
 [ext_resource path="res://images/background_square.png" type="Texture" id=2]
@@ -13,11 +13,14 @@
 [ext_resource path="res://audio/Itty Bitty 8 Bit.ogg" type="AudioStream" id=11]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 2844.39, 35.0925 )
+extents = Vector2( 2844.39, 23.1238 )
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 200.215, 17.7927 )
 
 [sub_resource type="CapsuleShape2D" id=2]
 radius = 27.6009
-height = 1.80784
+height = 80.6001
 
 [node name="Game" type="Node2D"]
 script = ExtResource( 1 )
@@ -61,22 +64,19 @@ texture = ExtResource( 6 )
 position = Vector2( -2808.74, 2003.48 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="background_square/StaticBody2D"]
-position = Vector2( 2750, 831.782 )
+position = Vector2( 2795.76, 797.462 )
 shape = SubResource( 1 )
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="background_square/StaticBody2D"]
+position = Vector2( 1444.59, 556.249 )
+shape = SubResource( 3 )
 
 [node name="KinematicBody2D" type="KinematicBody2D" parent="."]
 position = Vector2( 260.652, 629.403 )
 script = ExtResource( 9 )
 
-[node name="Player" type="Sprite" parent="KinematicBody2D"]
-texture = ExtResource( 10 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="KinematicBody2D"]
-position = Vector2( -1.27435, 42.0985 )
-shape = SubResource( 2 )
-
-[node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2( 3, 3 )
+[node name="Camera2D" type="Camera2D" parent="KinematicBody2D"]
+position = Vector2( -257.652, -626.403 )
 scale = Vector2( 0.0300456, 101.337 )
 anchor_mode = 0
 current = true
@@ -85,6 +85,13 @@ drag_margin_left = 0.0
 drag_margin_top = 0.0
 drag_margin_right = 0.0
 drag_margin_bottom = 0.0
+
+[node name="Player" type="Sprite" parent="KinematicBody2D"]
+texture = ExtResource( 10 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="KinematicBody2D"]
+position = Vector2( -1.27435, 3.13848 )
+shape = SubResource( 2 )
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 11 )
