@@ -12,7 +12,7 @@ var isRunning = true
 var whereIsPlayer
 
 var JUMP_SPEED = 600
-var JUMP_HEIGHT = 300
+var JUMP_HEIGHT = 200
 
 var runningImage1 = preload("res://images/player_anim/Sprite-0001.png")
 var runningImage2 = preload("res://images/player_anim/Sprite-0002.png")

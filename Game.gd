@@ -2,7 +2,7 @@ extends Node2D
 
 var whereIsPlayer
 
-var PLAYER_CAM_SPEED = 2000
+var PLAYER_CAM_SPEED = 1500
 
 var CAM_MAXX = 4815
 var CAM_MINX = 3
