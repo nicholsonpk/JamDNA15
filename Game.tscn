@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://Game.gd" type="Script" id=1]
 [ext_resource path="res://images/background_square.png" type="Texture" id=2]
@@ -11,16 +11,22 @@
 [ext_resource path="res://KinematicBody2D.gd" type="Script" id=9]
 [ext_resource path="res://images/player_anim/Sprite-0001.png" type="Texture" id=10]
 [ext_resource path="res://audio/Itty Bitty 8 Bit.ogg" type="AudioStream" id=11]
+[ext_resource path="res://images/platformIndustrial_035.png" type="Texture" id=12]
+[ext_resource path="res://images/platformIndustrial_036.png" type="Texture" id=13]
+[ext_resource path="res://images/platformIndustrial_037.png" type="Texture" id=14]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 2844.39, 23.1238 )
+extents = Vector2( 4336.19, 97.483 )
 
-[sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 200.215, 17.7927 )
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 88.1414, 2787.09 )
 
-[sub_resource type="CapsuleShape2D" id=2]
+[sub_resource type="CapsuleShape2D" id=3]
 radius = 27.6009
 height = 80.6001
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 104.841, 10.9028 )
 
 [node name="Game" type="Node2D"]
 script = ExtResource( 1 )
@@ -30,32 +36,39 @@ position = Vector2( 2808.74, -2003.48 )
 texture = ExtResource( 2 )
 
 [node name="01_g" type="Sprite" parent="background_square"]
+visible = false
 position = Vector2( -2197.38, 1772.68 )
 texture = ExtResource( 3 )
 
 [node name="01_g_01" type="Sprite" parent="background_square"]
+visible = false
 position = Vector2( -1998.63, 2121.04 )
 texture = ExtResource( 4 )
 
 [node name="01_g_02" type="Sprite" parent="background_square"]
+visible = false
 position = Vector2( -1604.47, 2121.04 )
 texture = ExtResource( 5 )
 
 [node name="gobilen_t_03" type="Sprite" parent="background_square"]
+visible = false
 position = Vector2( -1185.76, 2164.14 )
 scale = Vector2( 2, 2 )
 texture = ExtResource( 6 )
 
 [node name="gobilen_t_04" type="Sprite" parent="background_square"]
+visible = false
 position = Vector2( -388.953, 2163.65 )
 scale = Vector2( 5, 2 )
 texture = ExtResource( 7 )
 
 [node name="02_g" type="Sprite" parent="background_square"]
+visible = false
 position = Vector2( -1999.43, 2118.7 )
 texture = ExtResource( 8 )
 
 [node name="gobilen_t_05" type="Sprite" parent="background_square"]
+visible = false
 position = Vector2( 436.974, 2166.03 )
 scale = Vector2( 2, 2 )
 texture = ExtResource( 6 )
@@ -64,12 +77,20 @@ texture = ExtResource( 6 )
 position = Vector2( -2808.74, 2003.48 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="background_square/StaticBody2D"]
-position = Vector2( 2795.76, 797.462 )
+position = Vector2( 3330.76, 816.569 )
+shape = SubResource( 1 )
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="background_square/StaticBody2D"]
+position = Vector2( 3139.69, -4848.66 )
 shape = SubResource( 1 )
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="background_square/StaticBody2D"]
-position = Vector2( 1444.59, 556.249 )
-shape = SubResource( 3 )
+position = Vector2( 5848.78, -1997.24 )
+shape = SubResource( 4 )
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="background_square/StaticBody2D"]
+position = Vector2( -7.52344, -1987.68 )
+shape = SubResource( 4 )
 
 [node name="KinematicBody2D" type="KinematicBody2D" parent="."]
 position = Vector2( 260.652, 629.403 )
@@ -91,9 +112,31 @@ texture = ExtResource( 10 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="KinematicBody2D"]
 position = Vector2( -1.27435, 3.13848 )
-shape = SubResource( 2 )
+shape = SubResource( 3 )
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 11 )
-autoplay = true
+stream_paused = true
 max_distance = 1e+006
+
+[node name="Platform" type="Node2D" parent="."]
+editor/display_folded = true
+
+[node name="platformIndustrial_035" type="Sprite" parent="Platform"]
+position = Vector2( 976.932, 552.166 )
+texture = ExtResource( 12 )
+
+[node name="platformIndustrial_036" type="Sprite" parent="Platform"]
+position = Vector2( 1046.67, 552.166 )
+texture = ExtResource( 13 )
+
+[node name="platformIndustrial_037" type="Sprite" parent="Platform"]
+position = Vector2( 1116.5, 552.166 )
+texture = ExtResource( 14 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Platform"]
+position = Vector2( -83.9673, 46.5988 )
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Platform/StaticBody2D"]
+position = Vector2( 1133.31, 481.081 )
+shape = SubResource( 2 )

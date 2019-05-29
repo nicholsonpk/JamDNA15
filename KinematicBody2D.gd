@@ -1,17 +1,16 @@
 extends KinematicBody2D
 
 var isJumping = false
-
+var isRunning = true
 var isSliding = false
 var isRolling = false
-var slideRollTimer = 0
 
-var isRunning = true
+var slideRollTimer = 0
 
 var whereIsPlayer
 
 var JUMP_SPEED = -1200
-var RUN_SPEED = 350
+var RUN_SPEED = 650
 var GRAVITY = 2500
 
 var velocity = Vector2()
@@ -20,6 +19,8 @@ var runningImage1 = preload("res://images/player_anim/Sprite-0001.png")
 var runningImage2 = preload("res://images/player_anim/Sprite-0002.png")
 var runningImage3 = preload("res://images/player_anim/Sprite-0003.png")
 var runningImage4 = preload("res://images/player_anim/Sprite-0004.png")
+
+var jumpingImage1 = preload("res://images/player_anim/Sprite-jump.png")
 
 var slidingImage1 = preload("res://images/player_anim/Sprite-slide.png")
 
@@ -36,33 +37,75 @@ func _ready():
 	whereIsPlayer = runningOn.bottom
 
 func get_input():
-	velocity.x = 0
-	var right = RUN_SPEED
-	#var left = Input.is_action_pressed('ui_left')
-	var jump = Input.is_action_just_pressed('ui_up')
 	
-	if (Input.is_action_just_pressed('ui_down')):
+	# Clear before each pass
+	isRunning = true
+	
+	var jump = Input.is_action_just_pressed('ui_up')
+	var down = Input.is_action_just_pressed('ui_down')
+	
+	if (is_on_floor() or is_on_wall ()) and down:
 		isSliding = true
 		isJumping = false
 		isRunning = false
 	
-	if is_on_floor() and jump:
+	if (is_on_floor() or is_on_wall ()) and jump:
 		isJumping = true
 		isRunning = false
-		velocity.y = JUMP_SPEED
-	if is_on_floor() and !jump:
-		isRunning = true
-		isJumping = false
-	if right:
-		velocity.x += RUN_SPEED
+		isSliding = false
+		isRolling = false
+		
+		if (whereIsPlayer == runningOn.bottom):
+			velocity.y = JUMP_SPEED
+		if (whereIsPlayer == runningOn.right):
+			velocity.x = JUMP_SPEED
+		if (whereIsPlayer == runningOn.top):
+			velocity.y = -JUMP_SPEED
+		if (whereIsPlayer == runningOn.left):
+			velocity.x = -JUMP_SPEED
+	
+	# Always moving forward around the square
+	if (whereIsPlayer == runningOn.bottom):
+		velocity.x = RUN_SPEED
+	if (whereIsPlayer == runningOn.right):
+		velocity.y = -RUN_SPEED
+	if (whereIsPlayer == runningOn.top):
+		velocity.x = -RUN_SPEED
+	if (whereIsPlayer == runningOn.left):
+		velocity.y = RUN_SPEED
 
 func _physics_process(delta):
-	velocity.y += GRAVITY * delta
+	
 	get_input()
+	
+	if (whereIsPlayer == runningOn.bottom):
+		if (is_on_wall()):
+			whereIsPlayer = runningOn.right
+	
+	# TO DO - fix ceiling collision
+	if (whereIsPlayer == runningOn.right):
+		if (is_on_ceiling()):
+			whereIsPlayer = runningOn.top
+	if (whereIsPlayer == runningOn.top):
+		if (is_on_wall()):
+			whereIsPlayer = runningOn.left
+	if (whereIsPlayer == runningOn.left):
+		if (is_on_floor()):
+			whereIsPlayer = runningOn.bottom
+	
 	velocity = move_and_slide(velocity, Vector2(0, -1))
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+
+	if (whereIsPlayer == runningOn.bottom):
+		velocity.y += GRAVITY * delta
+	if (whereIsPlayer == runningOn.right):
+		velocity.x += GRAVITY * delta
+	if (whereIsPlayer == runningOn.top):
+		velocity.y -= GRAVITY * delta
+	if (whereIsPlayer == runningOn.left):
+		velocity.x -= GRAVITY * delta
 
 	# Animations
 	#
@@ -88,7 +131,7 @@ func _process(delta):
 
 		# Jumping
 		if (isJumping):
-			get_node("Player").set_texture(rollingImage1)
+			get_node("Player").set_texture(jumpingImage1)
 
 		# Sliding
 		if (isSliding && !isRolling):
@@ -98,139 +141,29 @@ func _process(delta):
 		if (isRolling):
 			get_node("Player").set_texture(rollingImage1)
 
-
 		timeSinceFrame = 0
-#
-#
-#	#
-#	#
-#	# Check inputs
-#	#
-#	#
-#
-#	# Neither input pressed
-#	if (!Input.is_action_pressed("ui_up") && !Input.is_action_pressed("ui_down") && !isJumping):
-#		isRunning = true
-#
-#	# Up input pressed
-#	if (isJumping == false  && isSliding == false && isRolling ==  false && Input.is_action_pressed("ui_up")):
-#		# jumping
-#		isJumping = true
-#
-#	# Down input pressed
-#	if (isJumping == false && isSliding == false && isRolling ==  false && Input.is_action_pressed("ui_down")):
-#		# sliding
-#		isSliding = true
-#
-#	#
-#	# isRolling is set inside isSliding code
-#	#
-#
-#	#
-#	#
-#	# Jumping
-#	#
-#	#
-#
-#	if (isJumping):
-#
-#		# bottom
-#		if (whereIsPlayer == runningOn.bottom):
-#
-#			# move upward
-#			if (!finishedJump):
-#				get_node("Player").global_position.y -= JUMP_SPEED * delta
-#				if (get_node("Player").global_position.y <= 715 - JUMP_HEIGHT):
-#					finishedJump = true
-#
-#			# drop down
-#			if (finishedJump):
-#				if (get_node("Player").global_position.y <= 715):
-#					get_node("Player").global_position.y += JUMP_SPEED * 2 * delta # fall twice as fast
-#				else:
-#					isJumping = false
-#					finishedJump = false
-#
-#		# right
-#		if (whereIsPlayer == runningOn.right):
-#
-#			if (!finishedJump):
-#				get_node("Player").global_position.x -= JUMP_SPEED * delta
-#				if (get_node("Player").global_position.x <= 5530 - JUMP_HEIGHT):
-#					finishedJump = true
-#
-#			if (finishedJump):
-#				if (get_node("Player").global_position.x <= 5530):
-#					get_node("Player").global_position.x += JUMP_SPEED * 2 * delta # fall twice as fast
-#				else:
-#					isJumping = false
-#					finishedJump = false
-#
-#		# top
-#		if (whereIsPlayer == runningOn.top):
-#
-#			# move upward
-#			if (!finishedJump):
-#				get_node("Player").global_position.y += JUMP_SPEED * delta
-#				if (get_node("Player").global_position.y >= -4720 + JUMP_HEIGHT):
-#					finishedJump = true
-#
-#			# drop down
-#			if (finishedJump):
-#				if (get_node("Player").global_position.y >= -4720):
-#					get_node("Player").global_position.y -= JUMP_SPEED * 2 * delta # fall twice as fast
-#				else:
-#					isJumping = false
-#					finishedJump = false
-#
-#		# left
-#		if (whereIsPlayer == runningOn.left):
-#
-#			# move upward
-#			if (!finishedJump):
-#				get_node("Player").global_position.x += JUMP_SPEED * delta
-#				if (get_node("Player").global_position.x >= 83 + JUMP_HEIGHT):
-#					finishedJump = true
-#
-#			# drop down
-#			if (finishedJump):
-#				if (get_node("Player").global_position.x >= 83):
-#					get_node("Player").global_position.x -= JUMP_SPEED * 2 * delta # fall twice as fast
-#				else:
-#					isJumping = false
-#					finishedJump = false
-#
-#	#
-#	#
-#	# Sliding and Rolling
-#	#
-#	#
-#	if (isSliding):
-#
-#		# if the button is held down,
-#		# count length of time
-#		if (Input.is_action_pressed("ui_down")):
-#			isSliding = true
-#			slideRollTimer += delta
-#		else: # otherwise, reset timer and bools
-#			slideRollTimer = 0
-#			isSliding = false
-#			isRolling = false
-#
-#		if (slideRollTimer > .5):
-#			# Rolling
-#			isRolling = true
-#
-##	# print to output for testing
-##	var run
-##	var jump
-##	var slide
-##	var roll
-##	run = "true" if isRunning else "false"
-##	jump = "true" if isJumping else "false"
-##	slide = "true" if isSliding else "false"
-##	roll = "true" if isRolling else "false"
-##	print(run + jump + slide + roll)
+
+	#
+	#
+	# Sliding and Rolling
+	#
+	#
+	if (isSliding):
+
+		# if the button is held down,
+		# count length of time
+		if (Input.is_action_pressed("ui_down")):
+			isSliding = true
+			slideRollTimer += delta
+			
+		else: # otherwise, reset timer and bools
+			slideRollTimer = 0
+			isSliding = false
+			isRolling = false
+
+		if (slideRollTimer > .5):
+			# Rolling
+			isRolling = true
 
 #
 #
