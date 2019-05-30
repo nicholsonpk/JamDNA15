@@ -5,6 +5,11 @@ var isRunning = true
 var isSliding = false
 var isRolling = false
 
+var PLAY_MAXX = 5527
+var PLAY_MINX = 83
+var PLAY_MAXY = 712
+var PLAY_MINY = -4807
+
 var slideRollTimer = 0
 
 var whereIsPlayer
@@ -44,16 +49,16 @@ func get_input():
 	var jump = Input.is_action_just_pressed('ui_up')
 	var down = Input.is_action_just_pressed('ui_down')
 	
-	if (is_on_floor() or is_on_wall ()) and down:
-		isSliding = true
-		isJumping = false
-		isRunning = false
-	
-	if (is_on_floor() or is_on_wall ()) and jump:
-		isJumping = true
-		isRunning = false
-		isSliding = false
-		isRolling = false
+#	if (is_on_floor() or is_on_wall ()) and down:
+#		isSliding = true
+#		isJumping = false
+#		isRunning = false
+#
+	if (is_on_floor() or is_on_wall () or is_on_ceiling()) and jump:
+#		isJumping = true
+#		isRunning = false
+#		isSliding = false
+#		isRolling = false
 		
 		if (whereIsPlayer == runningOn.bottom):
 			velocity.y = JUMP_SPEED
@@ -79,21 +84,38 @@ func _physics_process(delta):
 	get_input()
 	
 	if (whereIsPlayer == runningOn.bottom):
-		if (is_on_wall()):
+#		if (is_on_wall()):
+#			whereIsPlayer = runningOn.right
+		velocity = move_and_slide(velocity, Vector2(0, 0))
+		
+		if (get_node("CollisionShape2D").global_position.x > PLAY_MAXX):
 			whereIsPlayer = runningOn.right
-	
-	# TO DO - fix ceiling collision
+		
 	if (whereIsPlayer == runningOn.right):
-		if (is_on_ceiling()):
+#		if (is_on_ceiling()):
+#			whereIsPlayer = runningOn.top
+		velocity = move_and_slide(velocity, Vector2(0, 1))
+		
+		if (get_node("CollisionShape2D").global_position.x < PLAY_MINY):
 			whereIsPlayer = runningOn.top
+		
+		
 	if (whereIsPlayer == runningOn.top):
-		if (is_on_wall()):
+#		if (is_on_wall()):
+#			whereIsPlayer = runningOn.left
+		velocity = move_and_slide(velocity, Vector2(0, 2))
+		
+		if (get_node("CollisionShape2D").global_position.x < PLAY_MINX):
 			whereIsPlayer = runningOn.left
+		
 	if (whereIsPlayer == runningOn.left):
-		if (is_on_floor()):
+#		if (is_on_floor()):
+#			whereIsPlayer = runningOn.bottom
+		velocity = move_and_slide(velocity, Vector2(0, 3))
+		
+		if (get_node("CollisionShape2D").global_position.x < PLAY_MAXY):
 			whereIsPlayer = runningOn.bottom
-	
-	velocity = move_and_slide(velocity, Vector2(0, -1))
+
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

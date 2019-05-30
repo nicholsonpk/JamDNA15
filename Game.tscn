@@ -3,8 +3,8 @@
 [ext_resource path="res://Game.gd" type="Script" id=1]
 [ext_resource path="res://images/background_square.png" type="Texture" id=2]
 [ext_resource path="res://images/01_g.PNG" type="Texture" id=3]
-[ext_resource path="res://images/01_g_01.PNG" type="Texture" id=4]
-[ext_resource path="res://images/01_g_02.PNG" type="Texture" id=5]
+[ext_resource path="res://images/01_g_02.PNG" type="Texture" id=4]
+[ext_resource path="res://images/01_g_01.PNG" type="Texture" id=5]
 [ext_resource path="res://images/gobilen_t_03.png" type="Texture" id=6]
 [ext_resource path="res://images/gobilen_t_04.png" type="Texture" id=7]
 [ext_resource path="res://images/02_g.PNG" type="Texture" id=8]
@@ -18,14 +18,14 @@
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 4336.19, 97.483 )
 
-[sub_resource type="RectangleShape2D" id=4]
+[sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 88.1414, 2787.09 )
 
 [sub_resource type="CapsuleShape2D" id=3]
 radius = 27.6009
 height = 80.6001
 
-[sub_resource type="RectangleShape2D" id=2]
+[sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 104.841, 10.9028 )
 
 [node name="Game" type="Node2D"]
@@ -36,61 +36,67 @@ position = Vector2( 2808.74, -2003.48 )
 texture = ExtResource( 2 )
 
 [node name="01_g" type="Sprite" parent="background_square"]
-visible = false
 position = Vector2( -2197.38, 1772.68 )
 texture = ExtResource( 3 )
 
-[node name="01_g_01" type="Sprite" parent="background_square"]
-visible = false
-position = Vector2( -1998.63, 2121.04 )
+[node name="01_g_02" type="Sprite" parent="background_square/01_g"]
+position = Vector2( 3081.31, 347.404 )
 texture = ExtResource( 4 )
 
-[node name="01_g_02" type="Sprite" parent="background_square"]
-visible = false
-position = Vector2( -1604.47, 2121.04 )
+[node name="01_g_01" type="Sprite" parent="background_square"]
+position = Vector2( -1998.63, 2121.04 )
 texture = ExtResource( 5 )
 
+[node name="01_g_02" type="Sprite" parent="background_square"]
+position = Vector2( -1604.47, 2121.04 )
+texture = ExtResource( 4 )
+
 [node name="gobilen_t_03" type="Sprite" parent="background_square"]
-visible = false
 position = Vector2( -1185.76, 2164.14 )
 scale = Vector2( 2, 2 )
 texture = ExtResource( 6 )
 
 [node name="gobilen_t_04" type="Sprite" parent="background_square"]
-visible = false
 position = Vector2( -388.953, 2163.65 )
 scale = Vector2( 5, 2 )
 texture = ExtResource( 7 )
 
 [node name="02_g" type="Sprite" parent="background_square"]
-visible = false
 position = Vector2( -1999.43, 2118.7 )
 texture = ExtResource( 8 )
 
 [node name="gobilen_t_05" type="Sprite" parent="background_square"]
-visible = false
 position = Vector2( 436.974, 2166.03 )
 scale = Vector2( 2, 2 )
 texture = ExtResource( 6 )
 
-[node name="StaticBody2D" type="StaticBody2D" parent="background_square"]
+[node name="bottomStaticBody2D" type="StaticBody2D" parent="background_square"]
 position = Vector2( -2808.74, 2003.48 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="background_square/StaticBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="background_square/bottomStaticBody2D"]
 position = Vector2( 3330.76, 816.569 )
 shape = SubResource( 1 )
 
-[node name="CollisionShape2D3" type="CollisionShape2D" parent="background_square/StaticBody2D"]
-position = Vector2( 3139.69, -4848.66 )
+[node name="rightStaticBody2D4" type="StaticBody2D" parent="background_square"]
+collision_layer = 2
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="background_square/rightStaticBody2D4"]
+position = Vector2( 3040.04, 6.23999 )
+shape = SubResource( 2 )
+
+[node name="topStaticBody2D2" type="StaticBody2D" parent="background_square"]
+collision_layer = 4
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="background_square/topStaticBody2D2"]
+position = Vector2( 330.95, -2845.18 )
 shape = SubResource( 1 )
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="background_square/StaticBody2D"]
-position = Vector2( 5848.78, -1997.24 )
-shape = SubResource( 4 )
+[node name="leftStaticBody2D3" type="StaticBody2D" parent="background_square"]
+collision_layer = 8
 
-[node name="CollisionShape2D4" type="CollisionShape2D" parent="background_square/StaticBody2D"]
-position = Vector2( -7.52344, -1987.68 )
-shape = SubResource( 4 )
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="background_square/leftStaticBody2D3"]
+position = Vector2( -2816.26, 15.7999 )
+shape = SubResource( 2 )
 
 [node name="KinematicBody2D" type="KinematicBody2D" parent="."]
 position = Vector2( 260.652, 629.403 )
@@ -139,4 +145,4 @@ position = Vector2( -83.9673, 46.5988 )
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="Platform/StaticBody2D"]
 position = Vector2( 1133.31, 481.081 )
-shape = SubResource( 2 )
+shape = SubResource( 4 )
