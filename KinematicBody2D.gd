@@ -7,6 +7,11 @@ var isSliding = false
 var isRolling = false
 var slideRollTimer = 0
 
+var PLAY_MAXX = 5526
+var PLAY_MINX = 87
+var PLAY_MAXY = 716
+var PLAY_MINY = -4720
+
 var isRunning = true
 
 var whereIsPlayer
@@ -18,6 +23,8 @@ var runningImage1 = preload("res://images/player_anim/Sprite-0001.png")
 var runningImage2 = preload("res://images/player_anim/Sprite-0002.png")
 var runningImage3 = preload("res://images/player_anim/Sprite-0003.png")
 var runningImage4 = preload("res://images/player_anim/Sprite-0004.png")
+
+var jumpingImage1 = preload("res://images/player_anim/Sprite-jump.png")
 
 var slidingImage1 = preload("res://images/player_anim/Sprite-slide.png")
 
@@ -59,8 +66,8 @@ func _process(delta):
 				currentFrame = 1
 
 		# Jumping
-#		if (isJumping):
-#			get_node("Player").set_texture(jumpingImage1)
+		if (isJumping):
+			get_node("Player").set_texture(jumpingImage1)
 
 		# Sliding
 		if (isSliding && !isRolling):
@@ -112,12 +119,12 @@ func _process(delta):
 			# move upward
 			if (!finishedJump):
 				get_node("Player").global_position.y -= JUMP_SPEED * delta
-				if (get_node("Player").global_position.y <= 715 - JUMP_HEIGHT):
+				if (get_node("Player").global_position.y <= PLAY_MAXY - JUMP_HEIGHT):
 					finishedJump = true
 
 			# drop down
 			if (finishedJump):
-				if (get_node("Player").global_position.y <= 715):
+				if (get_node("Player").global_position.y <= PLAY_MAXY):
 					get_node("Player").global_position.y += JUMP_SPEED * 2 * delta # fall twice as fast
 				else:
 					isJumping = false
@@ -128,11 +135,11 @@ func _process(delta):
 
 			if (!finishedJump):
 				get_node("Player").global_position.x -= JUMP_SPEED * delta
-				if (get_node("Player").global_position.x <= 5530 - JUMP_HEIGHT):
+				if (get_node("Player").global_position.x <= PLAY_MAXX - JUMP_HEIGHT):
 					finishedJump = true
 
 			if (finishedJump):
-				if (get_node("Player").global_position.x <= 5530):
+				if (get_node("Player").global_position.x <= PLAY_MAXX):
 					get_node("Player").global_position.x += JUMP_SPEED * 2 * delta # fall twice as fast
 				else:
 					isJumping = false
@@ -144,12 +151,12 @@ func _process(delta):
 			# move upward
 			if (!finishedJump):
 				get_node("Player").global_position.y += JUMP_SPEED * delta
-				if (get_node("Player").global_position.y >= -4720 + JUMP_HEIGHT):
+				if (get_node("Player").global_position.y >= PLAY_MINY + JUMP_HEIGHT):
 					finishedJump = true
 
 			# drop down
 			if (finishedJump):
-				if (get_node("Player").global_position.y >= -4720):
+				if (get_node("Player").global_position.y >= PLAY_MINY):
 					get_node("Player").global_position.y -= JUMP_SPEED * 2 * delta # fall twice as fast
 				else:
 					isJumping = false
@@ -161,12 +168,12 @@ func _process(delta):
 			# move upward
 			if (!finishedJump):
 				get_node("Player").global_position.x += JUMP_SPEED * delta
-				if (get_node("Player").global_position.x >= 83 + JUMP_HEIGHT):
+				if (get_node("Player").global_position.x >= PLAY_MINX + JUMP_HEIGHT):
 					finishedJump = true
 
 			# drop down
 			if (finishedJump):
-				if (get_node("Player").global_position.x >= 83):
+				if (get_node("Player").global_position.x >= PLAY_MINX):
 					get_node("Player").global_position.x -= JUMP_SPEED * 2 * delta # fall twice as fast
 				else:
 					isJumping = false
