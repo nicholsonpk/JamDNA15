@@ -1,24 +1,20 @@
-extends KinematicBody2D
+extends Sprite
 
+# states of player
+var isRunning = true
 var isJumping = false
 var finishedJump = false
-
 var isSliding = false
 var isRolling = false
 var slideRollTimer = 0
 
-var PLAY_MAXX = 5526
-var PLAY_MINX = 87
-var PLAY_MAXY = 716
-var PLAY_MINY = -4720
+var MAXY = 800
 
-var isRunning = true
-
-var whereIsPlayer
-
+# 
 var JUMP_SPEED = 600
 var JUMP_HEIGHT = 200
 
+# images for each animation
 var runningImage1 = preload("res://images/player_anim/Sprite-0001.png")
 var runningImage2 = preload("res://images/player_anim/Sprite-0002.png")
 var runningImage3 = preload("res://images/player_anim/Sprite-0003.png")
@@ -33,12 +29,11 @@ var rollingImage1 = preload("res://images/player_anim/Sprite-roll.png")
 var currentFrame = 1
 var timeSinceFrame = 0
 
-enum runningOn { bottom, right, top, left }
+
 
 # Set first running texture and player starts on the bottom.
 func _ready():
-	get_node("Player").set_texture(runningImage1)
-	whereIsPlayer = runningOn.bottom
+	set_texture(runningImage1)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -56,26 +51,26 @@ func _process(delta):
 		# Running
 		if (isRunning):
 			if (currentFrame == 1):
-				get_node("Player").set_texture(runningImage1)
+				set_texture(runningImage1)
 			if (currentFrame == 2):
-				get_node("Player").set_texture(runningImage2)
+				set_texture(runningImage2)
 			if (currentFrame == 3):
-				get_node("Player").set_texture(runningImage3)
+				set_texture(runningImage3)
 			if (currentFrame == 4):
-				get_node("Player").set_texture(runningImage4)
+				set_texture(runningImage4)
 				currentFrame = 1
 
 		# Jumping
 		if (isJumping):
-			get_node("Player").set_texture(jumpingImage1)
+			set_texture(jumpingImage1)
 
 		# Sliding
 		if (isSliding && !isRolling):
-			get_node("Player").set_texture(slidingImage1)
+			set_texture(slidingImage1)
 
 		# Rolling
 		if (isRolling):
-			get_node("Player").set_texture(rollingImage1)
+			set_texture(rollingImage1)
 
 
 		timeSinceFrame = 0
@@ -104,7 +99,8 @@ func _process(delta):
 	#
 	# isRolling is set inside isSliding code
 	#
-
+	
+	
 	#
 	#
 	# Jumping
@@ -112,72 +108,20 @@ func _process(delta):
 	#
 
 	if (isJumping):
-
-		# bottom
-		if (whereIsPlayer == runningOn.bottom):
-
-			# move upward
-			if (!finishedJump):
-				get_node("Player").global_position.y -= JUMP_SPEED * delta
-				if (get_node("Player").global_position.y <= PLAY_MAXY - JUMP_HEIGHT):
-					finishedJump = true
-
-			# drop down
-			if (finishedJump):
-				if (get_node("Player").global_position.y <= PLAY_MAXY):
-					get_node("Player").global_position.y += JUMP_SPEED * 2 * delta # fall twice as fast
-				else:
-					isJumping = false
-					finishedJump = false
-
-		# right
-		if (whereIsPlayer == runningOn.right):
-
-			if (!finishedJump):
-				get_node("Player").global_position.x -= JUMP_SPEED * delta
-				if (get_node("Player").global_position.x <= PLAY_MAXX - JUMP_HEIGHT):
-					finishedJump = true
-
-			if (finishedJump):
-				if (get_node("Player").global_position.x <= PLAY_MAXX):
-					get_node("Player").global_position.x += JUMP_SPEED * 2 * delta # fall twice as fast
-				else:
-					isJumping = false
-					finishedJump = false
-
-		# top
-		if (whereIsPlayer == runningOn.top):
-
-			# move upward
-			if (!finishedJump):
-				get_node("Player").global_position.y += JUMP_SPEED * delta
-				if (get_node("Player").global_position.y >= PLAY_MINY + JUMP_HEIGHT):
-					finishedJump = true
-
-			# drop down
-			if (finishedJump):
-				if (get_node("Player").global_position.y >= PLAY_MINY):
-					get_node("Player").global_position.y -= JUMP_SPEED * 2 * delta # fall twice as fast
-				else:
-					isJumping = false
-					finishedJump = false
-
-		# left
-		if (whereIsPlayer == runningOn.left):
-
-			# move upward
-			if (!finishedJump):
-				get_node("Player").global_position.x += JUMP_SPEED * delta
-				if (get_node("Player").global_position.x >= PLAY_MINX + JUMP_HEIGHT):
-					finishedJump = true
-
-			# drop down
-			if (finishedJump):
-				if (get_node("Player").global_position.x >= PLAY_MINX):
-					get_node("Player").global_position.x -= JUMP_SPEED * 2 * delta # fall twice as fast
-				else:
-					isJumping = false
-					finishedJump = false
+		# move upward
+		if (!finishedJump):
+			global_position.y -= JUMP_SPEED * delta
+			if (global_position.y <= MAXY - JUMP_HEIGHT):
+				finishedJump = true
+	
+		# drop down
+		if (finishedJump):
+			# not a collision
+			if (global_position.y <= MAXY):
+				global_position.y += JUMP_SPEED * 2 * delta # fall twice as fast
+			else: # is a collision
+				isJumping = false
+				finishedJump = false
 
 	#
 	#
@@ -213,8 +157,32 @@ func _process(delta):
 
 #
 #
-# Called by Game to keep player class in line with where the player is
+# Check location vs all platforms
+# to see if the player landed
 #
 #
-func setWhereIsPlayer(var x):
-	whereIsPlayer = x
+#func notOnPlatform():
+#
+#	# find out where player is
+#	var playerX = get_node("Player").global_position.x
+#	var playerY = get_node("Player").global_position.y + 150
+#	var playerXEnd = playerX + 75
+#
+#	var platforms = get_tree().get_nodes_in_group("platforms")
+#	for N in platforms:
+#
+#		if (whereIsPlayer == runningOn.bottom):
+#			# platform x = 243
+#			# platform y = 22
+#			var platformX = N.get_node("platformIndustrial_035").global_position.x
+#			var platformY = N.get_node("platformIndustrial_035").global_position.y
+#			var platformXEnd = platformX + 243
+#
+#			if (playerXEnd >= platformX &&
+#				playerX <= platformXEnd && 
+#				playerY >= platformY && 
+#				playerY <= platformY + 5):
+#				# collision
+#				return false
+#
+#	return true
